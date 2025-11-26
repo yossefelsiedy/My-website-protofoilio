@@ -1,20 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark theme-red">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yossef Elsiedy - Portfolio</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Google Fonts -->
+    <!-- Google Fonts - Cairo -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #dc2626;
+            --secondary: #ef4444;
+            --accent: #f59e0b;
+            --dark: #000000;
+            --light: #fef2f2;
+            --card-bg: #ffffff;
+            --card-dark: #000000;
+            --text-light: #1f2937;
+            --text-dark: #ffffff;
+        }
+
+        .theme-red {
+            --primary: #dc2626;
+            --secondary: #ef4444;
+            --card-bg: #ffffff;
+            --card-dark: #000000;
+        }
+
+        .theme-blue {
+            --primary: #3b82f6;
+            --secondary: #60a5fa;
+            --card-bg: #ffffff;
+            --card-dark: #000000;
+        }
+
+        .theme-emerald {
+            --primary: #10b981;
+            --secondary: #34d399;
+            --card-bg: #ffffff;
+            --card-dark: #000000;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Cairo', sans-serif;
             scroll-behavior: smooth;
         }
         .fade-in {
@@ -38,26 +76,18 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
         .icon-animation {
             transition: all 0.3s ease;
         }
         .icon-animation:hover {
             transform: scale(1.2) rotate(5deg);
-            color: #4a6b8a;
+            color: var(--primary);
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #3a506b 0%, #5c7e9e 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
         }
         .gradient-text {
-            background: linear-gradient(135deg, #3a506b 0%, #5c7e9e 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -68,53 +98,96 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        .modal {
-            display: none;
-            position: fixed;
+
+        /* Hero Background Animation */
+        .hero-pattern {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-pattern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(239, 68, 68, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(220, 38, 38, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(239, 68, 68, 0.3) 0%, transparent 50%);
+        }
+
+        .particles {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 100;
-            overflow: auto;
+            overflow: hidden;
+            z-index: 0;
         }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 800px;
-            max-height: 80vh;
-            overflow-y: auto;
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float 6s infinite linear;
         }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
         }
-        .close:hover {
-            color: black;
+
+        /* Dynamic colors for all elements */
+        .dynamic-bg {
+            background-color: var(--card-bg);
+        }
+        .dark .dynamic-bg {
+            background-color: var(--card-dark);
+        }
+        .dynamic-text {
+            color: var(--text-light);
+        }
+        .dark .dynamic-text {
+            color: var(--text-dark);
+        }
+        .dynamic-border {
+            border-color: var(--primary);
+        }
+        .dynamic-icon {
+            color: var(--primary);
         }
     </style>
 </head>
-<body class="bg-gradient-to-b from-blue-50 to-indigo-50 text-slate-800 min-h-screen">
+<body class="bg-gradient-to-b from-red-50 to-pink-50 dark:from-black dark:to-gray-900 text-slate-800 dark:text-white min-h-screen">
     <!-- Navigation -->
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-blue-200">
+    <header class="sticky top-0 z-50 bg-white/90 dark:bg-black/90 backdrop-blur border-b dynamic-border">
         <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <a href="#home" class="font-bold text-lg gradient-text">Yossef<span class="text-blue-400">.dev</span></a>
+            <a href="#home" class="font-bold text-lg gradient-text flex items-center gap-2">
+                <div class="w-6 h-6 rounded-full gradient-bg"></div>
+                Yossef.dev
+            </a>
             <div class="hidden md:flex items-center gap-6 text-sm">
-                <a href="#about" class="hover:text-blue-600 transition">About</a>
-                <a href="#skills" class="hover:text-blue-600 transition">Skills</a>
-                <a href="#projects" class="hover:text-blue-600 transition">Projects</a>
-                <a href="#internships" class="hover:text-blue-600 transition">Internships</a>
-                <a href="#contact" class="hover:text-blue-600 transition">Contact</a>
+                <a href="#about" class="dynamic-text hover:text-red-600 dark:hover:text-red-400 transition">About</a>
+                <a href="#skills" class="dynamic-text hover:text-red-600 dark:hover:text-red-400 transition">Skills</a>
+                <a href="#projects" class="dynamic-text hover:text-red-600 dark:hover:text-red-400 transition">Projects</a>
+                <a href="#internships" class="dynamic-text hover:text-red-600 dark:hover:text-red-400 transition">Internships</a>
+                <a href="#contact" class="dynamic-text hover:text-red-600 dark:hover:text-red-400 transition">Contact</a>
             </div>
             <div class="flex items-center gap-2">
-                <a href="https://drive.google.com/file/d/1ivpRb0FogK30b5Tx-xROr8_RdGlPjRgo/view?usp=drive_link" target="_blank" class="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 text-sm hover:from-blue-700 hover:to-indigo-700 transition shadow-md btn-animation">
+                <button id="themeToggle" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-800 transition hover:scale-110 dynamic-icon">
+                    <i data-lucide="palette" class="w-5 h-5"></i>
+                </button>
+                <button id="darkModeToggle" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-800 transition dynamic-icon">
+                    <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
+                    <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                </button>
+                <a href="https://drive.google.com/file/d/1ivpRb0FogK30b5Tx-xROr8_RdGlPjRgo/view?usp=drive_link" target="_blank" class="inline-flex items-center gap-2 rounded-2xl gradient-bg text-white px-4 py-2 text-sm hover:opacity-90 transition shadow-md btn-animation">
                     <i data-lucide="file-text" class="w-4 h-4 icon-animation"></i> View CV
                 </a>
             </div>
@@ -122,51 +195,52 @@
     </header>
 
     <!-- Hero Section -->
-    <section id="home" class="fade-in max-w-6xl mx-auto px-4 pt-16 pb-24">
-        <div class="grid md:grid-cols-2 gap-8 items-center">
-            <div>
-                <p class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-blue-600 font-medium">
-                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+    <section id="home" class="min-h-screen hero-pattern pt-20 flex items-center relative">
+        <div class="particles" id="particles"></div>
+        <div class="max-w-6xl mx-auto px-4 py-20 grid md:grid-cols-2 gap-8 items-center relative z-10">
+            <div class="text-white">
+                <p class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-red-100 font-medium mb-6">
+                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-red-200 animate-pulse"></span>
                     Open to Internships / Projects
                 </p>
-                <h1 class="mt-4 text-3xl md:text-5xl font-bold leading-tight gradient-text">Yossef Mohamed Elsiedy</h1>
-                <p class="mt-2 text-lg md:text-xl text-slate-600">Computer & Communications Engineer & Software Tester</p>
+                <h1 class="text-3xl md:text-5xl font-bold leading-tight text-white mb-4">Yossef Mohamed Elsiedy</h1>
+                <p class="text-lg md:text-xl text-red-100 mb-6">Computer & Communications Engineer & Software Tester</p>
                 
                 <div class="mt-6 flex flex-wrap items-center gap-3 text-sm">
-                    <span class="inline-flex items-center gap-1 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-blue-700">
+                    <span class="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-500/20 px-3 py-1 text-red-100">
                         <i data-lucide="map-pin" class="w-4 h-4 icon-animation"></i> El Beheira, Egypt
                     </span>
-                    <a href="https://www.linkedin.com/in/yossef-elsiedy-85646931b" class="inline-flex items-center gap-1 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-blue-700 hover:bg-blue-100 transition btn-animation" target="_blank">
+                    <a href="https://www.linkedin.com/in/yossef-elsiedy-85646931b" class="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-500/20 px-3 py-1 text-red-100 hover:bg-red-400/30 transition btn-animation" target="_blank">
                         <i data-lucide="linkedin" class="w-4 h-4 icon-animation"></i> LinkedIn
                     </a>
                 </div>
                 
                 <div class="mt-6 flex flex-wrap gap-3">
-                    <a href="#projects" class="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 text-sm hover:from-blue-700 hover:to-indigo-700 transition shadow-md btn-animation">See Projects</a>
-                    <a href="#contact" class="rounded-2xl border border-blue-300 text-blue-600 px-4 py-2 text-sm hover:bg-blue-50 transition btn-animation">Contact</a>
+                    <a href="#projects" class="rounded-2xl gradient-bg text-white px-6 py-3 text-sm hover:opacity-90 transition shadow-md btn-animation">See Projects</a>
+                    <a href="#contact" class="rounded-2xl border border-red-300 text-red-100 px-6 py-3 text-sm hover:bg-red-500/20 transition btn-animation">Contact</a>
                 </div>
             </div>
             
             <div class="slide-up md:justify-self-end">
                 <div class="relative">
-                    <div class="absolute -inset-1 bg-gradient-to-tr from-blue-200 via-blue-100 to-transparent rounded-3xl blur"></div>
-                    <div class="relative rounded-3xl border border-blue-200 bg-white p-6 shadow-sm">
+                    <div class="absolute -inset-1 bg-gradient-to-tr from-red-200 via-red-100 to-transparent rounded-3xl blur"></div>
+                    <div class="relative rounded-3xl border border-red-300 bg-black/80 backdrop-blur-sm p-6 shadow-sm text-white">
                         <div class="grid grid-cols-2 gap-4 text-sm">
                             <div class="space-y-1">
-                                <p class="text-blue-600">Role</p>
-                                <p class="font-medium text-slate-800">Engineer • Freelancer</p>
+                                <p class="text-red-200">Role</p>
+                                <p class="font-medium">Engineer • Freelancer</p>
                             </div>
                             <div class="space-y-1">
-                                <p class="text-blue-600">Focus</p>
-                                <p class="font-medium text-slate-800">Computer Science • Software Testing</p>
+                                <p class="text-red-200">Focus</p>
+                                <p class="font-medium">Computer Science • Software Testing</p>
                             </div>
                             <div class="space-y-1">
-                                <p class="text-blue-600">University</p>
-                                <p class="font-medium text-slate-800">Mansoura National University</p>
+                                <p class="text-red-200">University</p>
+                                <p class="font-medium">Mansoura National University</p>
                             </div>
                             <div class="space-y-1">
-                                <p class="text-blue-600">Location</p>
-                                <p class="font-medium text-slate-800">El Beheira, Egypt</p>
+                                <p class="text-red-200">Location</p>
+                                <p class="font-medium">El Beheira, Egypt</p>
                             </div>
                         </div>
                     </div>
@@ -176,15 +250,15 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-16 bg-white">
+    <section id="about" class="py-16 dynamic-bg">
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex items-center gap-3 mb-8">
-                <i data-lucide="cpu" class="w-6 h-6 icon-animation text-blue-600"></i>
+                <i data-lucide="cpu" class="w-6 h-6 icon-animation dynamic-icon"></i>
                 <h2 class="text-2xl md:text-3xl font-semibold tracking-tight gradient-text">About me</h2>
             </div>
             
             <div class="grid md:grid-cols-3 gap-6">
-                <div class="md:col-span-2 space-y-4 leading-relaxed text-slate-700">
+                <div class="md:col-span-2 space-y-4 leading-relaxed dynamic-text">
                     <p>
                         A Computer and Communications Engineering student with hands-on experience in software testing, programming, and networking. Skilled in manual and API testing, with practical projects in Java, SQL, and network simulations. 
                     <p>
@@ -199,18 +273,18 @@
                 </div>
                 
                 <div class="space-y-3">
-                    <div class="rounded-2xl border border-blue-200 p-4 bg-blue-50">
-                        <div class="flex items-center gap-2 font-medium text-blue-700">
+                    <div class="rounded-2xl border dynamic-border p-4 bg-red-50 dark:bg-red-900/50">
+                        <div class="flex items-center gap-2 font-medium text-red-700 dark:text-red-300">
                             <i data-lucide="map-pin" class="w-4 h-4 icon-animation"></i> Based in El Beheira, Egypt
                         </div>
-                        <div class="mt-2 text-sm text-blue-600">Open to remote opportunities.</div>
+                        <div class="mt-2 text-sm text-red-600 dark:text-red-400">Open to remote opportunities.</div>
                     </div>
                     
-                    <div class="rounded-2xl border border-blue-200 p-4 bg-blue-50">
-                        <div class="flex items-center gap-2 font-medium text-blue-700">
+                    <div class="rounded-2xl border dynamic-border p-4 bg-red-50 dark:bg-red-900/50">
+                        <div class="flex items-center gap-2 font-medium text-red-700 dark:text-red-300">
                             <i data-lucide="wrench" class="w-4 h-4 icon-animation"></i> Currently learning
                         </div>
-                        <ul class="mt-2 text-sm text-blue-600 list-disc list-inside space-y-1">
+                        <ul class="mt-2 text-sm text-red-600 dark:text-red-400 list-disc list-inside space-y-1">
                             <li>Computer Science</li>
                             <li>Software testing </li>
                         </ul>
@@ -221,52 +295,52 @@
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="py-16 bg-gray-50">
+    <section id="skills" class="py-16 bg-gray-50 dark:bg-gray-900">
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex items-center gap-3 mb-8">
-                <i data-lucide="code-2" class="w-6 h-6 icon-animation text-blue-600"></i>
+                <i data-lucide="code-2" class="w-6 h-6 icon-animation dynamic-icon"></i>
                 <h2 class="text-2xl md:text-3xl font-semibold tracking-tight gradient-text">Skills</h2>
             </div>
             
             <div class="grid md:grid-cols-3 gap-6">
-                <div class="rounded-2xl border border-blue-200 p-5 card-hover bg-white">
-                    <h3 class="font-semibold mb-3 text-blue-700">Programming Languages</h3>
-                    <ul class="text-sm text-slate-700 space-y-2">
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> C </li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Java </li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Python </li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> SQL </li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> JSON </li>
+                <div class="rounded-2xl border dynamic-border p-5 card-hover dynamic-bg">
+                    <h3 class="font-semibold mb-3 dynamic-text">Programming Languages</h3>
+                    <ul class="text-sm dynamic-text space-y-2">
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> C </li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Java </li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Python </li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> SQL </li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> JSON </li>
                     </ul>
                 </div>
                 
-                <div class="rounded-2xl border border-blue-200 p-5 card-hover bg-white">
-                    <h3 class="font-semibold mb-3 text-blue-700">Tools & Technologies</h3>
-                    <ul class="text-sm text-slate-700 space-y-2">
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Cisco Packet Tracer</li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> SQL Server Management Studio</li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> IntelliJ IDE</li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> GitHub</li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Postman</li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Excel</li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Blender</li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Notion</li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Powerpoint</li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Word</li>
+                <div class="rounded-2xl border dynamic-border p-5 card-hover dynamic-bg">
+                    <h3 class="font-semibold mb-3 dynamic-text">Tools & Technologies</h3>
+                    <ul class="text-sm dynamic-text space-y-2">
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Cisco Packet Tracer</li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> SQL Server Management Studio</li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> IntelliJ IDE</li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> GitHub</li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Postman</li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Excel</li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Blender</li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Notion</li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Powerpoint</li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Word</li>
                     </ul>
                 </div>
                 
-                <div class="rounded-2xl border border-blue-200 p-5 card-hover bg-white">
-                    <h3 class="font-semibold mb-3 text-blue-700">Soft Skills</h3>
-                    <ul class="text-sm text-slate-700 space-y-2">
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Critical Thinking</li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Problem Solving</li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Team leadership</li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Time management</li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Presentation Skills</li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Public Speaking</li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Freelancing Skills</li>
-                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-blue-500"></span> Time Flexibility</li>
+                <div class="rounded-2xl border dynamic-border p-5 card-hover dynamic-bg">
+                    <h3 class="font-semibold mb-3 dynamic-text">Soft Skills</h3>
+                    <ul class="text-sm dynamic-text space-y-2">
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Critical Thinking</li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Problem Solving</li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Team leadership</li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Time management</li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Presentation Skills</li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Public Speaking</li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Freelancing Skills</li>
+                        <li class="flex items-center gap-2"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span> Time Flexibility</li>
                     </ul>
                 </div>
             </div>
@@ -274,125 +348,125 @@
     </section>
 
     <!-- Projects Section -->
-  <section id="projects" class="py-16 bg-white">
-    <div class="max-w-6xl mx-auto px-4">
-        <div class="flex items-center gap-3 mb-8">
-            <i data-lucide="gamepad-2" class="w-6 h-6 icon-animation text-blue-600"></i>
-            <h2 class="text-2xl md:text-3xl font-semibold tracking-tight gradient-text">Projects</h2>
-        </div>
-        
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Project 1 -->
-            <div class="group block rounded-2xl border border-blue-200 p-5 hover:shadow-md transition card-hover bg-white">
-                <div class="flex items-start justify-between gap-3">
-                    <h3 class="font-semibold leading-tight group-hover:text-blue-600">Full University Management System</h3>
-                </div>
-                <p class="mt-2 text-sm text-slate-600">Full University Management System using Java OOP concepts. The system handles student registration, course enrollment, grade input & GPA calculation.</p>
-                <div class="mt-4 flex flex-wrap gap-2">
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">Java</span>
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">OOP</span>
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">IntelliJ IDE</span>
-                </div>
-            </div>
-            
-            <!-- Project 2 -->
-            <div class="group block rounded-2xl border border-blue-200 p-5 hover:shadow-md transition card-hover bg-white">
-                <div class="flex items-start justify-between gap-3">
-                    <h3 class="font-semibold leading-tight group-hover:text-blue-600">Personal Portfolio Website</h3>
-                </div>
-                <p class="mt-2 text-sm text-slate-600">Designed and developed a professional portfolio website showcasing projects and technical skills using AI-assisted tools, combined with programming knowledge.</p>
-                <div class="mt-4 flex flex-wrap gap-2">
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">HTML5</span>
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">CSS3</span>
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">AI-assisted tools</span>
-                </div>
-            </div>
-            
-            <!-- Project 3 -->
-            <div class="group block rounded-2xl border border-blue-200 p-5 hover:shadow-md transition card-hover bg-white">
-                <div class="flex items-start justify-between gap-3">
-                    <h3 class="font-semibold leading-tight group-hover:text-blue-600">Cisco Packet Tracer Projects</h3>
-                </div>
-                <p class="mt-2 text-sm text-slate-600">Designed and implemented Network topologies simulating real-world.</p>
-                <div class="mt-4 flex flex-wrap gap-2">
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">Cisco Packet Tracer</span>
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">Networking</span>
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">Network Design</span>
-                </div>
-            </div>
-            
-            <!-- Project 4 - تم إصلاح الخطأ هنا -->
-            <div class="group block rounded-2xl border border-blue-200 p-5 hover:shadow-md transition card-hover bg-white">
-                <div class="flex items-start justify-between gap-3">
-                    <h3 class="font-semibold leading-tight group-hover:text-blue-600">Utest Test Cycles</h3>
-                </div>
-                <p class="mt-2 text-sm text-slate-600">Participated in multiple paid & Unpaid test cycles.</p>
-                <div class="mt-4 flex flex-wrap gap-2">
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">Exploratory testing</span>
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">UI validation</span>
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">Regression testing</span>
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">Functional testing</span>
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">Mobile testing</span>
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">Website testing</span>
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">Bug report writing</span>
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">Charles Proxy Testing</span>
-                </div>
-            </div>
-            
-            <!-- Project 5 - تم إصلاح الخطأ هنا -->
-            <div class="group block rounded-2xl border border-blue-200 p-5 hover:shadow-md transition card-hover bg-white">
-                <div class="flex items-start justify-between gap-3">
-                    <h3 class="font-semibold leading-tight group-hover:text-blue-600">Data Annotation Ai trainer</h3>
-                </div>
-                <p class="mt-2 text-sm text-slate-600">Worked on Paid tasks for AI training projects.</p>
-                <div class="mt-4 flex flex-wrap gap-2">
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">Ai Training</span>
-                    <span class="text-xs rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-2 py-1">Data Annotation</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-    <!-- Internships Section -->
-    <section id="internships" class="py-16 bg-gray-50">
+    <section id="projects" class="py-16 dynamic-bg">
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex items-center gap-3 mb-8">
-                <i data-lucide="briefcase" class="w-6 h-6 icon-animation text-blue-600"></i>
+                <i data-lucide="gamepad-2" class="w-6 h-6 icon-animation dynamic-icon"></i>
+                <h2 class="text-2xl md:text-3xl font-semibold tracking-tight gradient-text">Projects</h2>
+            </div>
+            
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Project 1 -->
+                <div class="group block rounded-2xl border dynamic-border p-5 hover:shadow-md transition card-hover dynamic-bg">
+                    <div class="flex items-start justify-between gap-3">
+                        <h3 class="font-semibold leading-tight group-hover:text-red-600 dark:group-hover:text-red-400 dynamic-text">Full University Management System</h3>
+                    </div>
+                    <p class="mt-2 text-sm dynamic-text">Full University Management System using Java OOP concepts. The system handles student registration, course enrollment, grade input & GPA calculation.</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">Java</span>
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">OOP</span>
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">IntelliJ IDE</span>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="group block rounded-2xl border dynamic-border p-5 hover:shadow-md transition card-hover dynamic-bg">
+                    <div class="flex items-start justify-between gap-3">
+                        <h3 class="font-semibold leading-tight group-hover:text-red-600 dark:group-hover:text-red-400 dynamic-text">Personal Portfolio Website</h3>
+                    </div>
+                    <p class="mt-2 text-sm dynamic-text">Designed and developed a professional portfolio website showcasing projects and technical skills using AI-assisted tools, combined with programming knowledge.</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">HTML5</span>
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">CSS3</span>
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">AI-assisted tools</span>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="group block rounded-2xl border dynamic-border p-5 hover:shadow-md transition card-hover dynamic-bg">
+                    <div class="flex items-start justify-between gap-3">
+                        <h3 class="font-semibold leading-tight group-hover:text-red-600 dark:group-hover:text-red-400 dynamic-text">Cisco Packet Tracer Projects</h3>
+                    </div>
+                    <p class="mt-2 text-sm dynamic-text">Designed and implemented Network topologies simulating real-world.</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">Cisco Packet Tracer</span>
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">Networking</span>
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">Network Design</span>
+                    </div>
+                </div>
+                
+                <!-- Project 4 -->
+                <div class="group block rounded-2xl border dynamic-border p-5 hover:shadow-md transition card-hover dynamic-bg">
+                    <div class="flex items-start justify-between gap-3">
+                        <h3 class="font-semibold leading-tight group-hover:text-red-600 dark:group-hover:text-red-400 dynamic-text">Utest Test Cycles</h3>
+                    </div>
+                    <p class="mt-2 text-sm dynamic-text">Participated in multiple paid & Unpaid test cycles.</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">Exploratory testing</span>
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">UI validation</span>
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">Regression testing</span>
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">Functional testing</span>
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">Mobile testing</span>
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">Website testing</span>
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">Bug report writing</span>
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">Charles Proxy Testing</span>
+                    </div>
+                </div>
+                
+                <!-- Project 5 -->
+                <div class="group block rounded-2xl border dynamic-border p-5 hover:shadow-md transition card-hover dynamic-bg">
+                    <div class="flex items-start justify-between gap-3">
+                        <h3 class="font-semibold leading-tight group-hover:text-red-600 dark:group-hover:text-red-400 dynamic-text">Data Annotation Ai trainer</h3>
+                    </div>
+                    <p class="mt-2 text-sm dynamic-text">Worked on Paid tasks for AI training projects.</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">Ai Training</span>
+                        <span class="text-xs rounded-full border dynamic-border bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 px-2 py-1">Data Annotation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Internships Section -->
+    <section id="internships" class="py-16 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex items-center gap-3 mb-8">
+                <i data-lucide="briefcase" class="w-6 h-6 icon-animation dynamic-icon"></i>
                 <h2 class="text-2xl md:text-3xl font-semibold tracking-tight gradient-text">Internships</h2>
             </div>
             
-            <div class="rounded-2xl border border-blue-200 p-6 bg-blue-50">
+            <div class="rounded-2xl border dynamic-border p-6 bg-red-50 dark:bg-red-900/50">
                 <div class="flex items-start justify-between">
                     <div>
-                        <h3 class="text-xl font-semibold text-blue-800">Digital Egypt Pioneers Initiative - DEPI</h3>
-                        <p class="text-blue-600 mt-2">A comprehensive initiative focused on developing digital skills and preparing youth for the job market.</p>
+                        <h3 class="text-xl font-semibold text-red-800 dark:text-red-200">Digital Egypt Pioneers Initiative - DEPI</h3>
+                        <p class="text-red-600 dark:text-red-400 mt-2">A comprehensive initiative focused on developing digital skills and preparing youth for the job market.</p>
                     </div>
                 </div>
                 
                 <div class="mt-6">
-                    <h4 class="font-medium text-blue-700 mb-3">Skills Gained:</h4>
+                    <h4 class="font-medium text-red-700 dark:text-red-300 mb-3">Skills Gained:</h4>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">Java Programming</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">IntelliJ IDE</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">Time Management</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">Problem Solving</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">Soft Skills</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">Leadership</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">Freelancing</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">Teamwork</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">Team leading</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">Manual testing</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">Api testing</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">Database testing</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">Github</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">JSON</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">Microsoft Excel</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">Postman</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">Microsoft SQL Server</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">JIRA</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">ISTQB foundation level</span>
-                        <span class="text-sm rounded-full border border-blue-200 bg-white text-blue-700 px-3 py-1 text-center">Work under pressure</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">Java Programming</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">IntelliJ IDE</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">Time Management</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">Problem Solving</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">Soft Skills</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">Leadership</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">Freelancing</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">Teamwork</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">Team leading</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">Manual testing</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">Api testing</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">Database testing</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">Github</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">JSON</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">Microsoft Excel</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">Postman</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">Microsoft SQL Server</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">JIRA</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">ISTQB foundation level</span>
+                        <span class="text-sm rounded-full border dynamic-border bg-white dark:bg-black text-red-700 dark:text-red-300 px-3 py-1 text-center">Work under pressure</span>
                     </div>
                 </div>
             </div>
@@ -400,43 +474,112 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-16 bg-white">
+    <section id="contact" class="py-16 dynamic-bg">
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex items-center gap-3 mb-8">
-                <i data-lucide="network" class="w-6 h-6 icon-animation text-blue-600"></i>
+                <i data-lucide="network" class="w-6 h-6 icon-animation dynamic-icon"></i>
                 <h2 class="text-2xl md:text-3xl font-semibold tracking-tight gradient-text">Contact</h2>
             </div>
             
-            <div class="rounded-2xl border border-blue-200 p-5 space-y-4 text-sm bg-blue-50 md:w-2/3 mx-auto">
-                <div class="flex items-center gap-3 text-blue-700">
-                    <i data-lucide="mail" class="w-4 h-4 icon-animation"></i>
-                    <a class="hover:underline" href="mailto:YossefElsiedy@gmail.com">YossefElsiedy@gmail.com</a>
+            <div class="rounded-2xl border dynamic-border p-6 space-y-6 bg-red-50 dark:bg-red-900/50 md:w-2/3 mx-auto">
+                <div class="flex items-center gap-4 text-red-700 dark:text-red-300">
+                    <i data-lucide="mail" class="w-5 h-5 icon-animation"></i>
+                    <div>
+                        <h3 class="font-semibold">Email</h3>
+                        <a class="hover:underline" href="mailto:YossefElsiedy@gmail.com">YossefElsiedy@gmail.com</a>
+                    </div>
                 </div>
-                <div class="flex items-center gap-3 text-blue-700">
-                    <i data-lucide="phone" class="w-4 h-4 icon-animation"></i>
-                    <span>01067096102</span>
+                <div class="flex items-center gap-4 text-red-700 dark:text-red-300">
+                    <i data-lucide="phone" class="w-5 h-5 icon-animation"></i>
+                    <div>
+                        <h3 class="font-semibold">Phone</h3>
+                        <span>01067096102</span>
+                    </div>
                 </div>
-                <div class="flex items-center gap-3 text-blue-700">
-                    <i data-lucide="map-pin" class="w-4 h-4 icon-animation"></i>
-                    <span>El Beheira, Egypt</span>
+                <div class="flex items-center gap-4 text-red-700 dark:text-red-300">
+                    <i data-lucide="map-pin" class="w-5 h-5 icon-animation"></i>
+                    <div>
+                        <h3 class="font-semibold">Location</h3>
+                        <span>El Beheira, Egypt</span>
+                    </div>
                 </div>
-                <div class="flex items-center gap-3 text-blue-700">
-                    <i data-lucide="linkedin" class="w-4 h-4 icon-animation"></i>
-                    <a class="hover:underline" href="https://www.linkedin.com/in/yossef-elsiedy-85646931b" target="_blank">linkedin.com/in/yossef-elsiedy-85646931b</a>
+                <div class="flex items-center gap-4 text-red-700 dark:text-red-300">
+                    <i data-lucide="linkedin" class="w-5 h-5 icon-animation"></i>
+                    <div>
+                        <h3 class="font-semibold">LinkedIn</h3>
+                        <a class="hover:underline" href="https://www.linkedin.com/in/yossef-elsiedy-85646931b" target="_blank">linkedin.com/in/yossef-elsiedy-85646931b</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="border-t border-blue-200 py-8 mt-8 bg-blue-50">
-        <div class="max-w-6xl mx-auto px-4 text-xs text-blue-600 flex flex-col md:flex-row items-center justify-between gap-2">
+    <footer class="border-t dynamic-border py-8 mt-8 bg-red-50 dark:bg-red-900/50">
+        <div class="max-w-6xl mx-auto px-4 text-sm text-red-600 dark:text-red-400 flex flex-col md:flex-row items-center justify-between gap-2">
             <p>© 2025 Yossef Elsiedy. All rights reserved.</p>
             <p>Built with HTML & Tailwind.</p>
         </div>
     </footer>
 
-    <!-- Initialize Lucide Icons -->
-    <script>lucide.createIcons();</script>
+    <!-- Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const themeToggle = document.getElementById('themeToggle');
+        
+        if (localStorage.getItem('darkMode') === 'dark') {
+            document.documentElement.classList.add('dark');
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.setItem('darkMode', 'dark');
+            } else {
+                localStorage.setItem('darkMode', 'light');
+            }
+        });
+
+        // Theme Toggle
+        let currentTheme = 'red';
+        themeToggle.addEventListener('click', () => {
+            if (currentTheme === 'red') {
+                document.documentElement.classList.remove('theme-red');
+                document.documentElement.classList.add('theme-blue');
+                currentTheme = 'blue';
+            } else if (currentTheme === 'blue') {
+                document.documentElement.classList.remove('theme-blue');
+                document.documentElement.classList.add('theme-emerald');
+                currentTheme = 'emerald';
+            } else {
+                document.documentElement.classList.remove('theme-emerald');
+                document.documentElement.classList.add('theme-red');
+                currentTheme = 'red';
+            }
+        });
+
+        // Particles Animation
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 15;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 4 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = Math.random() * 3 + 3 + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        createParticles();
+    </script>
 </body>
 </html>
